@@ -1,0 +1,11 @@
+Train_model command:
+(example)python -m tools/train.py -c configs/ppyoloe/ppyoloe_crn_l_300e_coco.yml --eval --amp
+--eval: It allows the program to train and evaluate at the same time.
+--amp: It is an automatic mixing precision training. Occasionally, there will be NaN or Inf, which can be used or not
+
+
+After train, you would see a .pdparams file in output directory, then choose the last .pdparams file to export.
+Export model command:
+(example)python tools/export_model.py -c configs/ppyoloe/ppyoloe_crn_l_300e_coco.yml -o weights=output/ppyoloe_crn_l_300e_coco/best_model.pdparams
+-c the config file of train model
+-o the weights file

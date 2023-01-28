@@ -1,0 +1,36 @@
+_BASE_: [
+  '../datasets/coco_detection.yml',
+  '../runtime.yml',
+  './_base_/optimizer_300e.yml',
+  './_base_/ppyoloe_crn.yml',
+  './_base_/ppyoloe_reader.yml',
+]
+
+log_iter: 100
+snapshot_epoch: 10
+weights: output/ppyoloe_crn_l_300e_coco/model_final
+
+pretrain_weights: https://paddledet.bj.bcebos.com/models/pretrained/CSPResNetb_l_pretrained.pdparams
+depth_mult: 1.0
+width_mult: 1.0
+
+num_classes: 1
+
+TrainDataset:
+  !COCODataSet
+    dataset_dir: dataset/mot/MOT17
+    anno_path: annotations/train_half.json
+    image_dir: images/train
+    data_fields: ['image', 'gt_bbox', 'gt_class', 'is_crowd']
+
+EvalDataset:
+  !COCODataSet
+    dataset_dir: dataset/mot/MOT17
+    anno_path: annotations/val_half.json
+    image_dir: images/train
+
+TestDataset:
+  !ImageFolder
+    dataset_dir: dataset/mot/MOT17
+    anno_path: annotations/val_half.json
+
